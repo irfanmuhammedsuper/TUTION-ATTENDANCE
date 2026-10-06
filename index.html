@@ -2,142 +2,183 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#176b47">
 <title>Hifdh Teacher Attendance</title>
 <style>
-:root{--g9:#0f3d2a;--g7:#176b47;--g5:#1f9d68;--g1:#e8f5ee;--line:#d9e6df;--ink:#17261f;--mute:#5d7066;--bad:#b3261e;--badbg:#fdecea;--bg:#fff}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 48px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-h1{margin:0;font-size:clamp(1.1rem,3.6vw,1.6rem);line-height:1.2;color:var(--g9)}
-.brand{display:flex;align-items:center;gap:clamp(10px,2.5vw,16px);min-width:0;flex:1 1 280px}
-#logo{height:clamp(48px,11vw,84px);flex:none;display:flex;align-items:center}
-#logo img{height:100%;width:auto;max-width:clamp(96px,32vw,220px);object-fit:contain;border-radius:10px;display:block}
-#logo svg{height:100%;width:auto;aspect-ratio:1;border-radius:12px}
-.clock{text-align:right;color:var(--g7)}
-@media(max-width:560px){header{flex-direction:column;align-items:flex-start;gap:10px}.clock{text-align:left}.wrap{padding:14px 12px 40px}.card{padding:16px;border-radius:16px}}
-.clock b{display:block;font-size:1.4rem;font-variant-numeric:tabular-nums}
-.clock span{font-size:.9rem;color:var(--mute)}
-.grid{display:grid;gap:16px}
-@media(min-width:860px){.grid{grid-template-columns:420px 1fr;align-items:start}}
-.card{border:1px solid var(--line);border-radius:18px;padding:20px;background:#fff}
-.card h2{margin:0 0 14px;font-size:1.1rem;color:var(--g9)}
-label{display:block;font-weight:600;margin:0 0 6px}
-select,input[type=password]{width:100%;padding:13px 12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:#fff}
-select:focus,input:focus,button:focus-visible{outline:3px solid #9fd8bb;outline-offset:1px}
-.field{margin-bottom:14px}
-.subject{padding:12px;border-radius:12px;background:var(--g1);color:var(--g9);min-height:48px}
-.btn{width:100%;border:0;border-radius:16px;padding:20px;font:700 1.15rem inherit;font-family:inherit;color:#fff;background:var(--g7);cursor:pointer;transition:background .15s}
+:root{--g9:#0f3d2a;--g7:#176b47;--g5:#1f9d68;--g1:#e8f5ee;--line:#d9e6df;--ink:#17261f;--mute:#5d7066;--bad:#b3261e;--badbg:#fdecea;--gap:clamp(12px,2vw,20px);--pad:clamp(12px,3vw,28px)}
+*,*::before,*::after{box-sizing:border-box;min-width:0}
+html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden}
+html{-webkit-text-size-adjust:100%}
+body{background:#fff;color:var(--ink);font:clamp(14px,1.5vw,16px)/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent;overflow-wrap:anywhere;word-break:break-word}
+img,svg,video,canvas{max-width:100%;height:auto}
+button,input,select,textarea{max-width:100%}
+
+/* ---- app container: shrinks with the viewport, centred above 1200px ---- */
+.app{width:100%;max-width:1200px;margin:0 auto;padding-top:max(var(--pad),env(safe-area-inset-top));padding-bottom:max(var(--pad),env(safe-area-inset-bottom));padding-left:max(clamp(12px,3vw,32px),env(safe-area-inset-left));padding-right:max(clamp(12px,3vw,32px),env(safe-area-inset-right))}
+
+/* ---- header ---- */
+.header{width:100%;max-width:100%;margin-bottom:var(--gap)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.brand{display:flex;align-items:center;gap:clamp(10px,2vw,16px);min-width:0;flex:1 1 auto}
+.logo{width:clamp(48px,10vw,80px);flex:none}
+.logo img,.logo svg{display:block;width:100%;height:auto;border-radius:10px}
+.header-title{min-width:0;overflow-wrap:anywhere}
+h1{margin:0;font-size:clamp(20px,4vw,34px);line-height:1.15;color:var(--g9)}
+h2{margin:0;font-size:clamp(18px,3vw,24px);color:var(--g9)}
+.clock{text-align:right;color:var(--g7);flex:none}
+.clock b{display:block;font-size:clamp(18px,3vw,26px);font-variant-numeric:tabular-nums;line-height:1.2}
+.clock span{font-size:.85em;color:var(--mute)}
+@media(max-width:700px){.header-inner{flex-direction:column;align-items:flex-start}.clock{text-align:left}}
+
+/* ---- dashboard grid: ALL tracks use minmax(0,...) so content can never widen the page ---- */
+.dashboard-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap);width:100%;max-width:100%}
+.col{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap);align-content:start;width:100%;max-width:100%}
+@media(min-width:1001px){.dashboard-grid{grid-template-columns:minmax(280px,0.42fr) minmax(0,1fr);align-items:start}}
+
+.card{width:100%;max-width:100%;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:clamp(14px,2vw,20px);padding:clamp(14px,2.5vw,26px);background:#fff;box-shadow:0 1px 3px rgba(15,61,42,.06)}
+.card>h2,.bar{margin-bottom:clamp(10px,1.6vw,16px)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.bar h2{margin:0}
+label,.lbl{display:block;font-weight:600;margin-bottom:6px;font-size:.95em}
+.field{margin-bottom:clamp(10px,1.6vw,16px)}
+select{width:100%;max-width:100%;min-width:0;min-height:48px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:max(16px,1em);background:#fff;color:var(--ink)}
+.box{min-height:48px;padding:10px 12px;border-radius:12px;background:var(--g1);color:var(--g9);display:flex;align-items:center;width:100%}
+:focus-visible{outline:3px solid #7cc9a2;outline-offset:2px}
+
+.mark-button,.btn{min-height:52px;border:0;border-radius:16px;padding:14px 20px;font:700 clamp(15px,2vw,18px)/1.2 inherit;font-family:inherit;color:#fff;background:var(--g7);cursor:pointer;transition:background .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px;touch-action:manipulation}
+.mark-button{width:100%;max-width:100%}
 .btn:hover:not(:disabled){background:var(--g9)}
 .btn:disabled{background:#9db8aa;cursor:not-allowed}
-.btn.small{width:auto;padding:10px 16px;font-size:.95rem;border-radius:12px}
+.btn.success{background:var(--g5)}.btn.error{background:var(--bad)}
+.btn.small{min-height:44px;padding:10px 18px;font-size:15px;border-radius:12px}
 .btn.ghost{background:#fff;color:var(--g7);border:1.5px solid var(--g7)}
-.btn.ghost:hover:not(:disabled){background:var(--g1);color:var(--g9)}
-.spin{display:inline-block;width:1em;height:1em;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite;vertical-align:-2px;margin-right:6px}
+.btn.ghost:hover:not(:disabled){background:var(--g1)}
+.spin{width:1em;height:1em;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite;flex:none}
 .spin.dark{border-color:var(--line);border-top-color:var(--g7)}
 @keyframes s{to{transform:rotate(360deg)}}
-.status{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.92rem}
+
+.status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+@media(max-width:450px){.status-grid{grid-template-columns:minmax(0,1fr)}}
+.stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-height:56px}
 .stat small{display:block;color:var(--mute)}
+.stat b{font-weight:600;overflow-wrap:anywhere}
 .stat.ok{background:var(--g1);border-color:#b7dcc8}
 .stat.err{background:var(--badbg);border-color:#f0b9b4;color:var(--bad)}
 .alert{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:600;display:none}
-.alert.show{display:block}
-.alert.ok{background:var(--g1);color:var(--g9)}
-.alert.err{background:var(--badbg);color:var(--bad)}
-.note{margin:14px 0 0;font-size:.85rem;color:var(--mute)}
-.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.bar h2{margin:0}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
-td a{color:var(--g7);font-weight:600;margin-left:6px}
-table{width:100%;border-collapse:collapse;font-size:.88rem;white-space:nowrap}
-th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
-th{background:var(--g1);color:var(--g9);position:sticky;top:0}
-tr:last-child td{border-bottom:0}
+.alert.show{display:block}.alert.ok{background:var(--g1);color:var(--g9)}.alert.err{background:var(--badbg);color:var(--bad)}
+.note{margin:14px 0 0;font-size:.85em;color:var(--mute)}
+.lgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))}
+.lgrid .stat{background:var(--g1);border-color:#b7dcc8}
+.lgrid .wide{grid-column:1/-1}
+.coordinates{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+
+/* ---- history: table on >=701px, cards on <=700px ---- */
+.attendance-table-wrapper{display:none;width:100%;max-width:100%;overflow-x:auto;overflow-y:auto;max-height:min(70vh,620px);border:1px solid var(--line);border-radius:12px}
+.attendance-mobile-list{display:block;width:100%;max-width:100%}
+@media(min-width:701px){.attendance-table-wrapper{display:block}.attendance-mobile-list{display:none}}
+.attendance-table{width:100%;border-collapse:collapse;font-size:.88em}
+.attendance-table th,.attendance-table td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:break-word}
+.attendance-table th{background:var(--g1);color:var(--g9);position:sticky;top:0;z-index:1}
+.attendance-table tr:last-child td{border-bottom:0}
+.map-link{display:inline-block;max-width:100%;white-space:normal;overflow-wrap:anywhere;color:var(--g7);font-weight:600;padding:2px 0}
+.attendance-table .map-link{margin-left:4px}
 .empty{padding:24px;text-align:center;color:var(--mute)}
-.scroll{max-height:460px;overflow:auto}
+.rec{width:100%;max-width:100%;min-width:0;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;background:#fff}
+.rec-head{margin-bottom:8px}
+.rec-head strong{display:block;font-size:1.05em;color:var(--g9);text-transform:uppercase}
+.rec-head span{color:var(--mute);text-transform:uppercase}
+.rec p{margin:3px 0}
+.rec .btn{width:100%;margin-top:10px;min-height:44px;font-size:15px;text-decoration:none}
+
+.footer{margin-top:var(--gap);text-align:center;color:var(--mute);font-size:.85em}
+@media(max-height:480px) and (orientation:landscape){.card{padding:12px}.header{margin-bottom:8px}}
 @media(prefers-reduced-motion:reduce){.spin{animation-duration:2s}}
+html,body{max-width:100vw;overflow-x:hidden !important}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div id="logo" aria-hidden="true">
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-          <rect width="64" height="64" rx="14" fill="#176b47"/>
-          <path d="M12 22c8-3 14-2 20 3 6-5 12-6 20-3v24c-8-3-14-2-20 3-6-5-12-6-20-3z" fill="#fff"/>
-          <path d="M32 25v24" stroke="#176b47" stroke-width="2.5"/>
-          <path d="M44 9a8 8 0 1 0 5 11 6.5 6.5 0 1 1-5-11z" fill="#9fd8bb"/>
-        </svg>
+<div class="app">
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="logo" id="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#176b47"/><path d="M12 22c8-3 14-2 20 3 6-5 12-6 20-3v24c-8-3-14-2-20 3-6-5-12-6-20-3z" fill="#fff"/><path d="M32 25v24" stroke="#176b47" stroke-width="2.5"/><path d="M44 9a8 8 0 1 0 5 11 6.5 6.5 0 1 1-5-11z" fill="#9fd8bb"/></svg>
+        </div>
+        <h1 class="header-title">Hifdh Teacher Attendance</h1>
       </div>
-      <h1>Hifdh Teacher Attendance</h1>
+      <div class="clock" aria-label="Current date and time (IST)"><b id="clockTime">--:--:--</b><span id="clockDate"></span></div>
     </div>
-    <div class="clock"><b id="clockTime">--:--:--</b><span id="clockDate"></span></div>
   </header>
 
-  <div class="grid">
-    <section class="card">
-      <h2>Mark attendance</h2>
-      <div class="field">
-        <label for="teacher">Teacher</label>
-        <select id="teacher" disabled><option>Loading teachers…</option></select>
-      </div>
-      <div class="field">
-        <label>Subject</label>
-        <div class="subject" id="subject">Select a teacher to see the subject.</div>
-      </div>
-      <button class="btn" id="markBtn" disabled>MARK ATTENDANCE</button>
+  <main class="dashboard-grid">
+    <div class="col">
+      <section class="card" aria-labelledby="hMark">
+        <h2 id="hMark">Mark attendance</h2>
+        <div class="field">
+          <label for="teacher">Teacher</label>
+          <select id="teacher" disabled><option>Loading teachers…</option></select>
+        </div>
+        <div class="field">
+          <span class="lbl" id="subLbl">Subject</span>
+          <div class="box" id="subject" aria-labelledby="subLbl">Select a teacher to see the subject.</div>
+        </div>
+        <button class="mark-button" id="markBtn" type="button" disabled>MARK ATTENDANCE</button>
+        <div class="status-grid">
+          <div class="stat" id="attBox"><small>Attendance</small><b id="attStat">Not marked</b></div>
+          <div class="stat" id="locBox"><small>📍 Location</small><b id="locStat">Ready</b></div>
+        </div>
+        <div class="alert" id="alert" role="status" aria-live="polite"></div>
+        <p class="note">Open 07:45 AM – 01:00 PM IST. Location is requested only when you press the button and is used only to find the place where attendance was marked. The place name and coordinates are saved with your record. Location needs a secure (HTTPS) page and your permission.</p>
+      </section>
 
-      <div class="status">
-        <div class="stat" id="attStat"><small>Attendance</small><span id="attText">Not marked</span></div>
-        <div class="stat" id="locStat"><small>Location</small><span id="locText">Not requested</span></div>
-      </div>
-      <div class="stat" id="coords" style="margin-top:10px;display:none"></div>
-      <div class="alert" id="alert" role="status" aria-live="polite"></div>
-      <p class="note">Attendance is open 07:45 AM – 01:00 PM IST. Your location is requested only when you press the button, and is used only to find the place name where attendance was marked. The place name and coordinates are saved with your attendance record. Your browser will ask for permission; this requires a secure (HTTPS) page.</p>
-    </section>
+      <section class="card" aria-labelledby="hLoc">
+        <h2 id="hLoc">📍 Captured location</h2>
+        <div class="lgrid" aria-live="polite">
+          <div class="stat"><small>Latitude</small><b class="coordinates" id="lLat">—</b></div>
+          <div class="stat"><small>Longitude</small><b class="coordinates" id="lLng">—</b></div>
+          <div class="stat"><small>Accuracy</small><b id="lAcc">—</b></div>
+          <div class="stat wide"><small>Place</small><b id="lPlace">Shown after you mark attendance</b></div>
+        </div>
+      </section>
+    </div>
 
-    <section class="card">
+    <section class="card" aria-labelledby="hHist">
       <div class="bar">
-        <h2>Recent attendance</h2>
-        <button class="btn small ghost" id="refreshBtn">Refresh</button>
+        <h2 id="hHist">Recent attendance</h2>
+        <button class="btn small ghost" id="refreshBtn" type="button" aria-label="Refresh attendance history">↻ Refresh</button>
       </div>
-      <div class="tablewrap scroll">
-        <table>
-          <thead><tr><th>Date</th><th>Time</th><th>Teacher</th><th>Subject</th><th>Location</th><th>Coordinates</th><th>Accuracy</th><th>Location status</th></tr></thead>
-          <tbody id="history"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+      <div class="attendance-table-wrapper">
+        <table class="attendance-table">
+          <thead><tr><th>Date</th><th>Time</th><th>Teacher</th><th>Subject</th><th>Location</th><th>Coordinates</th><th>Accuracy</th><th>Status</th></tr></thead>
+          <tbody id="historyTable"></tbody>
         </table>
       </div>
+      <div class="attendance-mobile-list" id="historyCards"></div>
     </section>
-  </div>
+  </main>
+  <footer class="footer">Hifdh Teacher Attendance · All times in IST</footer>
 </div>
 
 <script>
 // ============ CONFIGURATION ============
 // Paste your deployed Apps Script Web App URL (ends with /exec)
-const API_URL = 'https://script.google.com/macros/s/AKfycbwylyIgCbCo9F4l3hSpTql__VESl-Q8qYrsCkUqaETzbmEMBX6_5JSJiMi3nT2ruestcg/exec';
-// Your logo: a file next to index.html (e.g. 'logo.png') or a full image URL.
-// Leave empty to keep the built-in default mark.
+const API_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+// Logo: image file next to index.html or a full URL. Empty = built-in mark.
 const LOGO_URL = 'https://i.postimg.cc/52xLJ6y8/ansar-logo.jpg';
 // =======================================
 
 const $ = id => document.getElementById(id);
 const els = {
   teacher: $('teacher'), subject: $('subject'), mark: $('markBtn'), alert: $('alert'),
-  attStat: $('attStat'), attText: $('attText'), locStat: $('locStat'), locText: $('locText'),
-  coords: $('coords'), history: $('history'), refresh: $('refreshBtn')
+  refresh: $('refreshBtn'), table: $('historyTable'), cards: $('historyCards'),
+  lat: $('lLat'), lng: $('lLng'), acc: $('lAcc'), place: $('lPlace')
 };
-let teachers = [];
-let busy = false;
+let teachers = [], busy = false, resetTimer = null;
 
-function esc(v) {
-  return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, c =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-// ---------- Clock (display only; the server enforces the real rules) ----------
 function tick() {
   const n = new Date();
   $('clockTime').textContent = n.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true });
@@ -145,211 +186,156 @@ function tick() {
 }
 setInterval(tick, 1000); tick();
 
-// ---------- UI helpers ----------
-function showAlert(type, msg) {
-  els.alert.className = 'alert show ' + type;
-  els.alert.textContent = msg;
-}
-function setStat(stat, textEl, type, text) {
-  stat.className = 'stat' + (type ? ' ' + type : '');
-  textEl.textContent = text;
-}
-function setMark(loading, label) {
-  els.mark.disabled = loading || !els.teacher.value;
-  els.mark.innerHTML = loading ? '<span class="spin"></span>' + esc(label) : esc(label);
+function showAlert(type, msg) { els.alert.className = 'alert show ' + type; els.alert.textContent = msg; }
+function setStat(prefix, type, text) { $(prefix + 'Box').className = 'stat' + (type ? ' ' + type : ''); $(prefix + 'Stat').textContent = text; }
+function setMark(state, label) {
+  clearTimeout(resetTimer);
+  els.mark.className = 'mark-button' + (state === 'success' || state === 'error' ? ' ' + state : '');
+  els.mark.disabled = state === 'loading' || !els.teacher.value;
+  els.mark.innerHTML = (state === 'loading' ? '<span class="spin"></span>' : '') + esc(label);
+  if (state === 'success' || state === 'error') resetTimer = setTimeout(() => setMark('idle', 'MARK ATTENDANCE'), 3000);
 }
 
-// ---------- API ----------
 async function api(action, payload) {
-  if (!API_URL || API_URL.indexOf('PASTE_YOUR') === 0) {
-    throw new Error('API URL is not configured. Edit API_URL in index.html.');
-  }
+  if (!API_URL || API_URL.indexOf('PASTE_YOUR') === 0) throw new Error('API URL is not configured. Edit API_URL in index.html.');
   let res;
   try {
     // text/plain avoids a CORS preflight, which Apps Script cannot answer
-    res = await fetch(API_URL, {
-      method: 'POST',
-      redirect: 'follow',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action, payload })
-    });
-  } catch (e) {
-    throw new Error('Network error. Check your internet connection and try again.');
-  }
+    res = await fetch(API_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, payload }) });
+  } catch (e) { throw new Error('Network error. Check your internet connection and try again.'); }
   if (!res.ok) throw new Error('Server error (HTTP ' + res.status + ').');
   let data;
-  try { data = await res.json(); }
-  catch (e) { throw new Error('Invalid response from the server.'); }
+  try { data = await res.json(); } catch (e) { throw new Error('Invalid response from the server.'); }
   if (!data || typeof data.success !== 'boolean') throw new Error('Invalid response from the server.');
   if (!data.success) throw new Error(data.message || 'Request failed.');
   return data;
 }
 
-// ---------- Teachers ----------
 async function loadTeachers() {
   try {
     const r = await api('getTeachers');
     teachers = Array.isArray(r.data) ? r.data : [];
-    if (!teachers.length) {
-      els.teacher.innerHTML = '<option value="">No teachers found</option>';
-      showAlert('err', 'No teachers are listed in the Teachers sheet.');
-      return;
-    }
-    els.teacher.innerHTML = '<option value="">Select your name</option>' +
-      teachers.map(t => '<option value="' + esc(t.name) + '">' + esc(t.name) + '</option>').join('');
+    if (!teachers.length) { els.teacher.innerHTML = '<option value="">No teachers found</option>'; showAlert('err', 'No teachers are listed in the Teachers sheet.'); return; }
+    els.teacher.innerHTML = '<option value="">Select your name</option>' + teachers.map(t => '<option value="' + esc(t.name) + '">' + esc(t.name) + '</option>').join('');
     els.teacher.disabled = false;
-  } catch (e) {
-    els.teacher.innerHTML = '<option value="">Could not load teachers</option>';
-    showAlert('err', e.message);
-  }
+  } catch (e) { els.teacher.innerHTML = '<option value="">Could not load teachers</option>'; showAlert('err', e.message); }
 }
 els.teacher.addEventListener('change', () => {
   const t = teachers.find(x => x.name === els.teacher.value);
   els.subject.textContent = t ? (t.subject || '—') : 'Select a teacher to see the subject.';
   els.mark.disabled = !t || busy;
-  setStat(els.attStat, els.attText, '', 'Not marked');
+  setStat('att', '', 'Not marked');
 });
 
-// ---------- History ----------
-function hasCoords(x) {
-  return x.latitude !== '' && x.longitude !== '' && x.latitude != null && x.longitude != null &&
-    !isNaN(Number(x.latitude)) && !isNaN(Number(x.longitude));
-}
-function coordText(x) {
-  return hasCoords(x) ? esc(Number(x.latitude).toFixed(6)) + ', ' + esc(Number(x.longitude).toFixed(6)) : '';
-}
-function placeCell(x) {
-  const name = esc(x.locationName);
-  if (!hasCoords(x)) return name;
-  const url = 'https://www.google.com/maps?q=' + encodeURIComponent(Number(x.latitude) + ',' + Number(x.longitude));
-  return name + ' <a href="' + url + '" target="_blank" rel="noopener noreferrer">Map</a>';
+const hasCoords = x => x.latitude !== '' && x.longitude !== '' && x.latitude != null && x.longitude != null && !isNaN(Number(x.latitude)) && !isNaN(Number(x.longitude));
+const coordText = x => hasCoords(x) ? Number(x.latitude).toFixed(6) + ', ' + Number(x.longitude).toFixed(6) : '—';
+const mapUrl = x => 'https://www.google.com/maps?q=' + encodeURIComponent(Number(x.latitude) + ',' + Number(x.longitude));
+const accText = x => (x.accuracy === '' || x.accuracy == null || isNaN(Number(x.accuracy))) ? '—' : Math.round(Number(x.accuracy)) + ' m';
+
+function renderHistory(rows) {
+  if (!rows.length) {
+    els.table.innerHTML = '<tr><td colspan="8" class="empty">No attendance recorded yet.</td></tr>';
+    els.cards.innerHTML = '<div class="empty">No attendance recorded yet.</div>';
+    return;
+  }
+  els.table.innerHTML = rows.map(x =>
+    '<tr><td>' + esc(x.date) + '</td><td>' + esc(x.time) + '</td><td>' + esc(x.teacherName) + '</td><td>' + esc(x.subject) +
+    '</td><td>' + esc(x.locationName) + (hasCoords(x) ? ' <a class="map-link" href="' + mapUrl(x) + '" target="_blank" rel="noopener noreferrer">Map</a>' : '') +
+    '</td><td class="coordinates">' + esc(coordText(x)) + '</td><td>' + esc(accText(x)) + '</td><td>' + esc(x.locationStatus) + '</td></tr>').join('');
+  els.cards.innerHTML = rows.map(x =>
+    '<article class="rec"><div class="rec-head"><strong>' + esc(x.teacherName) + '</strong><span>' + esc(x.subject) + '</span></div>' +
+    '<p>📅 ' + esc(x.date) + '</p><p>🕐 ' + esc(x.time) + '</p><p>📍 ' + esc(x.locationName) + '</p>' +
+    (hasCoords(x) ? '<p class="coordinates">🧭 ' + esc(coordText(x)) + '</p>' : '') +
+    '<p>🎯 Accuracy: ' + esc(accText(x)) + '</p><p>' + esc(x.locationStatus) + '</p>' +
+    (hasCoords(x) ? '<a class="btn ghost map-link" href="' + mapUrl(x) + '" target="_blank" rel="noopener noreferrer">View Map</a>' : '') + '</article>').join('');
 }
 async function loadHistory() {
   els.refresh.disabled = true;
-  els.history.innerHTML = '<tr><td colspan="8" class="empty"><span class="spin dark"></span>Loading…</td></tr>';
+  const loading = '<span class="spin dark"></span> Loading history…';
+  els.table.innerHTML = '<tr><td colspan="8" class="empty">' + loading + '</td></tr>';
+  els.cards.innerHTML = '<div class="empty">' + loading + '</div>';
   try {
     const r = await api('getHistory');
-    const rows = Array.isArray(r.data) ? r.data : [];
-    if (!rows.length) {
-      els.history.innerHTML = '<tr><td colspan="8" class="empty">No attendance recorded yet.</td></tr>';
-    } else {
-      els.history.innerHTML = rows.map(x =>
-        '<tr><td>' + esc(x.date) + '</td><td>' + esc(x.time) + '</td><td>' + esc(x.teacherName) +
-        '</td><td>' + esc(x.subject) + '</td><td>' + placeCell(x) + '</td><td>' + coordText(x) + '</td><td>' +
-        (x.accuracy === '' || x.accuracy === null || x.accuracy === undefined ? '' : esc(Math.round(Number(x.accuracy))) + ' m') +
-        '</td><td>' + esc(x.locationStatus) + '</td></tr>').join('');
-    }
+    renderHistory(Array.isArray(r.data) ? r.data : []);
   } catch (e) {
-    els.history.innerHTML = '<tr><td colspan="8" class="empty">' + esc(e.message) + '</td></tr>';
-  } finally {
-    els.refresh.disabled = false;
-  }
+    els.table.innerHTML = '<tr><td colspan="8" class="empty">' + esc(e.message) + '</td></tr>';
+    els.cards.innerHTML = '<div class="empty">' + esc(e.message) + '</div>';
+  } finally { els.refresh.disabled = false; }
 }
 
-// ---------- Location ----------
 function getLocation() {
   return new Promise((resolve, reject) => {
-    if (!('geolocation' in navigator)) {
-      return reject(new Error('This browser does not support location.'));
-    }
-    if (!window.isSecureContext) {
-      return reject(new Error('Location needs a secure (HTTPS) page.'));
-    }
-    navigator.geolocation.getCurrentPosition(
-      p => resolve(p.coords),
-      err => {
-        const m = {
-          1: 'Location permission was denied. Allow location for this site in your browser settings, then try again.',
-          2: 'Your location is unavailable. Turn on GPS or location services and try again.',
-          3: 'Getting your location took too long. Move to an open area and try again.'
-        };
-        reject(new Error(m[err.code] || 'Could not get your location.'));
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-    );
+    if (!('geolocation' in navigator)) return reject(new Error('This browser does not support location.'));
+    if (!window.isSecureContext) return reject(new Error('Location needs a secure (HTTPS) page.'));
+    navigator.geolocation.getCurrentPosition(p => resolve(p.coords), err => {
+      const m = {
+        1: 'Location permission was denied. Allow location for this site in your browser settings, then try again.',
+        2: 'Your location is unavailable. Turn on GPS or location services and try again.',
+        3: 'Getting your location took too long. Move to an open area and try again.'
+      };
+      reject(new Error(m[err.code] || 'Could not get your location.'));
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
   });
 }
 
-// ---------- Mark attendance ----------
 els.mark.addEventListener('click', async () => {
   const name = els.teacher.value;
   const t = teachers.find(x => x.name === name);
   if (!t) { showAlert('err', 'Select your name first.'); return; }
   if (busy) return;
-  busy = true;
-  els.teacher.disabled = true;
+  busy = true; els.teacher.disabled = true; els.refresh.disabled = true;
   els.alert.className = 'alert';
-  els.coords.style.display = 'none';
-  setStat(els.locStat, els.locText, '', 'Requesting…');
-  setMark(true, '📍 Getting Location...');
+  els.lat.textContent = els.lng.textContent = els.acc.textContent = '—';
+  els.place.textContent = 'Shown after you mark attendance';
+  setStat('loc', '', 'Requesting…');
+  setMark('loading', '📍 Getting Location...');
 
   let c;
-  try {
-    c = await getLocation();
-  } catch (e) {
-    setStat(els.locStat, els.locText, 'err', 'Not captured');
+  try { c = await getLocation(); }
+  catch (e) {
+    setStat('loc', 'err', 'Not captured');
     showAlert('err', e.message + ' Attendance was not recorded.');
-    finish();
-    return;
+    return finish('error', 'Location needed');
   }
-
   const lat = c.latitude, lng = c.longitude, acc = c.accuracy;
-  setStat(els.locStat, els.locText, 'ok', 'Captured');
-  els.coords.className = 'stat ok';
-  els.coords.style.display = 'block';
-  els.coords.innerHTML = '<small>Location captured</small>' + lat.toFixed(6) + ', ' + lng.toFixed(6) + ' (±' + Math.round(acc) + ' m)<br>Finding place name…';
-  setMark(true, 'Recording attendance…');
+  setStat('loc', 'ok', 'Captured');
+  els.lat.textContent = lat.toFixed(6); els.lng.textContent = lng.toFixed(6); els.acc.textContent = '±' + Math.round(acc) + ' m';
+  setMark('loading', 'Submitting attendance...');
   await new Promise(r => setTimeout(r, 700)); // let the teacher see the coordinates
 
   try {
-    const r = await api('recordAttendance', {
-      teacherName: name, subject: t.subject,
-      latitude: lat, longitude: lng, accuracy: acc,
-      locationStatus: 'Location captured'
-    });
-    setStat(els.attStat, els.attText, 'ok', 'Marked today');
-    const place = r.data && r.data.locationName;
-    if (place) {
-      els.coords.innerHTML = '<small>Recorded location</small>' + esc(place) +
-        '<br>' + lat.toFixed(6) + ', ' + lng.toFixed(6) + ' (±' + Math.round(acc) + ' m)';
-    }
+    const r = await api('recordAttendance', { teacherName: name, subject: t.subject, latitude: lat, longitude: lng, accuracy: acc, locationStatus: 'Location captured' });
+    setStat('att', 'ok', 'Marked today');
+    if (r.data && r.data.locationName) els.place.textContent = r.data.locationName;
     showAlert('ok', '✅ ' + (r.message || 'Attendance recorded.'));
+    finish('success', '✅ Recorded');
     loadHistory();
   } catch (e) {
-    setStat(els.attStat, els.attText, 'err', 'Not recorded');
+    setStat('att', 'err', 'Not recorded');
     showAlert('err', '❌ ' + e.message);
+    finish('error', 'Not recorded');
   }
-  finish();
 });
-function finish() {
-  busy = false;
-  els.teacher.disabled = false;
-  setMark(false, 'MARK ATTENDANCE');
+function finish(state, label) {
+  busy = false; els.teacher.disabled = false; els.refresh.disabled = false;
+  setMark(state, label);
 }
-
 els.refresh.addEventListener('click', loadHistory);
 
-// ---------- Logo ----------
 (function () {
   if (!LOGO_URL) return;
-  const box = $('logo');
-  const fallback = box.innerHTML;
-  const img = new Image();
-  img.alt = 'Ansar logo';
-  img.referrerPolicy = 'no-referrer';
-  img.decoding = 'async';
+  const box = $('logo'), fallback = box.innerHTML, img = new Image();
+  img.alt = 'Ansar logo'; img.referrerPolicy = 'no-referrer'; img.decoding = 'async';
   img.onload = () => {
-    box.innerHTML = '';
-    box.appendChild(img);
+    box.innerHTML = ''; box.appendChild(img);
     const icon = document.querySelector('link[rel=icon]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }));
     icon.href = LOGO_URL;
   };
-  img.onerror = () => { box.innerHTML = fallback; }; // keep default if file missing
+  img.onerror = () => { box.innerHTML = fallback; };
   img.src = LOGO_URL;
 })();
 
-// ---------- Init (no location request here) ----------
-setMark(false, 'MARK ATTENDANCE');
+setMark('idle', 'MARK ATTENDANCE');
 loadTeachers();
 loadHistory();
 </script>
