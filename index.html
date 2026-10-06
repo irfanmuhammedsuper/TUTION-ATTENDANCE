@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#176b47">
+<meta name="theme-color" content="#336e8e">
 <title>Hifdh Teacher Attendance</title>
 <style>
-:root{--g9:#0f3d2a;--g7:#176b47;--g5:#1f9d68;--g1:#e8f5ee;--line:#d9e6df;--ink:#17261f;--mute:#5d7066;--bad:#b3261e;--badbg:#fdecea;--gap:clamp(12px,2vw,20px);--pad:clamp(12px,3vw,28px)}
+:root{--g9:#1f4a63;--g7:#336e8e;--g5:#2f7d5e;--g1:#eaf2f7;--gold:#c7aa64;--gold-d:#8a6d25;--goldbg:#f8f1de;--line:#dbe4ea;--ink:#1c2a33;--mute:#5b6b76;--bad:#b3261e;--badbg:#fdecea;--gap:clamp(12px,2vw,20px);--pad:clamp(12px,3vw,28px)}
 *,*::before,*::after{box-sizing:border-box;min-width:0}
 html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden}
 html{-webkit-text-size-adjust:100%}
@@ -19,16 +19,16 @@ button,input,select,textarea{max-width:100%}
 
 /* ---- header ---- */
 .header{width:100%;max-width:100%;margin-bottom:var(--gap)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0;padding-bottom:var(--gap);border-bottom:3px solid var(--gold)}
 .brand{display:flex;align-items:center;gap:clamp(10px,2vw,16px);min-width:0;flex:1 1 auto}
 .logo{width:clamp(48px,10vw,80px);flex:none}
 .logo img,.logo svg{display:block;width:100%;height:auto;border-radius:10px}
 .header-title{min-width:0;overflow-wrap:anywhere}
 h1{margin:0;font-size:clamp(20px,4vw,34px);line-height:1.15;color:var(--g9)}
 h2{margin:0;font-size:clamp(18px,3vw,24px);color:var(--g9)}
-.clock{text-align:right;color:var(--g7);flex:none}
+.clock{text-align:right;color:var(--g9);flex:none}
 .clock b{display:block;font-size:clamp(18px,3vw,26px);font-variant-numeric:tabular-nums;line-height:1.2}
-.clock span{font-size:.85em;color:var(--mute)}
+.clock span{font-size:.85em;color:var(--gold-d);font-weight:600}
 @media(max-width:700px){.header-inner{flex-direction:column;align-items:flex-start}.clock{text-align:left}}
 
 /* ---- dashboard grid: ALL tracks use minmax(0,...) so content can never widen the page ---- */
@@ -36,7 +36,7 @@ h2{margin:0;font-size:clamp(18px,3vw,24px);color:var(--g9)}
 .col{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap);align-content:start;width:100%;max-width:100%}
 @media(min-width:1001px){.dashboard-grid{grid-template-columns:minmax(280px,0.42fr) minmax(0,1fr);align-items:start}}
 
-.card{width:100%;max-width:100%;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:clamp(14px,2vw,20px);padding:clamp(14px,2.5vw,26px);background:#fff;box-shadow:0 1px 3px rgba(15,61,42,.06)}
+.card{width:100%;max-width:100%;min-width:0;overflow:hidden;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:clamp(14px,2vw,20px);padding:clamp(14px,2.5vw,26px);background:#fff;box-shadow:0 1px 3px rgba(31,74,99,.08)}
 .card>h2,.bar{margin-bottom:clamp(10px,1.6vw,16px)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .bar h2{margin:0}
@@ -44,12 +44,12 @@ label,.lbl{display:block;font-weight:600;margin-bottom:6px;font-size:.95em}
 .field{margin-bottom:clamp(10px,1.6vw,16px)}
 select{width:100%;max-width:100%;min-width:0;min-height:48px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:max(16px,1em);background:#fff;color:var(--ink)}
 .box{min-height:48px;padding:10px 12px;border-radius:12px;background:var(--g1);color:var(--g9);display:flex;align-items:center;width:100%}
-:focus-visible{outline:3px solid #7cc9a2;outline-offset:2px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
 .mark-button,.btn{min-height:52px;border:0;border-radius:16px;padding:14px 20px;font:700 clamp(15px,2vw,18px)/1.2 inherit;font-family:inherit;color:#fff;background:var(--g7);cursor:pointer;transition:background .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px;touch-action:manipulation}
 .mark-button{width:100%;max-width:100%}
 .btn:hover:not(:disabled){background:var(--g9)}
-.btn:disabled{background:#9db8aa;cursor:not-allowed}
+.btn:disabled{background:#9fb6c5;cursor:not-allowed}
 .btn.success{background:var(--g5)}.btn.error{background:var(--bad)}
 .btn.small{min-height:44px;padding:10px 18px;font-size:15px;border-radius:12px}
 .btn.ghost{background:#fff;color:var(--g7);border:1.5px solid var(--g7)}
@@ -63,13 +63,14 @@ select{width:100%;max-width:100%;min-width:0;min-height:48px;padding:10px 12px;b
 .stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-height:56px}
 .stat small{display:block;color:var(--mute)}
 .stat b{font-weight:600;overflow-wrap:anywhere}
-.stat.ok{background:var(--g1);border-color:#b7dcc8}
+.stat.ok{background:var(--g1);border-color:#bcd3e1}
+.sub small{display:block;color:var(--gold-d);font-weight:600}
 .stat.err{background:var(--badbg);border-color:#f0b9b4;color:var(--bad)}
 .alert{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:600;display:none}
 .alert.show{display:block}.alert.ok{background:var(--g1);color:var(--g9)}.alert.err{background:var(--badbg);color:var(--bad)}
 .note{margin:14px 0 0;font-size:.85em;color:var(--mute)}
 .lgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))}
-.lgrid .stat{background:var(--g1);border-color:#b7dcc8}
+.lgrid .stat{background:var(--g1);border-color:#bcd3e1}
 .lgrid .wide{grid-column:1/-1}
 .coordinates{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
 
@@ -103,7 +104,7 @@ html,body{max-width:100vw;overflow-x:hidden !important}
     <div class="header-inner">
       <div class="brand">
         <div class="logo" id="logo" aria-hidden="true">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#176b47"/><path d="M12 22c8-3 14-2 20 3 6-5 12-6 20-3v24c-8-3-14-2-20 3-6-5-12-6-20-3z" fill="#fff"/><path d="M32 25v24" stroke="#176b47" stroke-width="2.5"/><path d="M44 9a8 8 0 1 0 5 11 6.5 6.5 0 1 1-5-11z" fill="#9fd8bb"/></svg>
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#336e8e"/><path d="M12 22c8-3 14-2 20 3 6-5 12-6 20-3v24c-8-3-14-2-20 3-6-5-12-6-20-3z" fill="#fff"/><path d="M32 25v24" stroke="#336e8e" stroke-width="2.5"/><path d="M44 9a8 8 0 1 0 5 11 6.5 6.5 0 1 1-5-11z" fill="#c7aa64"/></svg>
         </div>
         <h1 class="header-title">Hifdh Teacher Attendance</h1>
       </div>
@@ -120,8 +121,12 @@ html,body{max-width:100vw;overflow-x:hidden !important}
           <select id="teacher" disabled><option>Loading teachers…</option></select>
         </div>
         <div class="field">
+          <label for="period">Period</label>
+          <select id="period" disabled><option value="">Select a teacher first</option></select>
+        </div>
+        <div class="field">
           <span class="lbl" id="subLbl">Subject</span>
-          <div class="box" id="subject" aria-labelledby="subLbl">Select a teacher to see the subject.</div>
+          <div class="box sub" id="subject" aria-labelledby="subLbl"><span>Select your period to see the subject.</span></div>
         </div>
         <button class="mark-button" id="markBtn" type="button" disabled>MARK ATTENDANCE</button>
         <div class="status-grid">
@@ -129,7 +134,7 @@ html,body{max-width:100vw;overflow-x:hidden !important}
           <div class="stat" id="locBox"><small>📍 Location</small><b id="locStat">Ready</b></div>
         </div>
         <div class="alert" id="alert" role="status" aria-live="polite"></div>
-        <p class="note">Open 07:45 AM – 01:00 PM IST. Location is requested only when you press the button and is used only to find the place where attendance was marked. The place name and coordinates are saved with your record. Location needs a secure (HTTPS) page and your permission.</p>
+        <p class="note">Choose the period you taught today, then press the button. Open 07:45 AM – 01:00 PM IST; each period can be marked once per day. Location is requested only when you press the button and is used only to find the place where attendance was marked. The place name and coordinates are saved with your record. Location needs a secure (HTTPS) page and your permission.</p>
       </section>
 
       <section class="card" aria-labelledby="hLoc">
@@ -150,7 +155,7 @@ html,body{max-width:100vw;overflow-x:hidden !important}
       </div>
       <div class="attendance-table-wrapper">
         <table class="attendance-table">
-          <thead><tr><th>Date</th><th>Time</th><th>Teacher</th><th>Subject</th><th>Location</th><th>Coordinates</th><th>Accuracy</th><th>Status</th></tr></thead>
+          <thead><tr><th>Date</th><th>Time</th><th>Teacher</th><th>Period</th><th>Subject</th><th>Location</th><th>Coordinates</th><th>Accuracy</th><th>Status</th></tr></thead>
           <tbody id="historyTable"></tbody>
         </table>
       </div>
@@ -163,18 +168,19 @@ html,body{max-width:100vw;overflow-x:hidden !important}
 <script>
 // ============ CONFIGURATION ============
 // Paste your deployed Apps Script Web App URL (ends with /exec)
-const API_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwylyIgCbCo9F4l3hSpTql__VESl-Q8qYrsCkUqaETzbmEMBX6_5JSJiMi3nT2ruestcg/exec';
 // Logo: image file next to index.html or a full URL. Empty = built-in mark.
-const LOGO_URL = 'https://i.postimg.cc/52xLJ6y8/ansar-logo.jpg';
+const LOGO_URL = 'logo.png';
+const LOGO_FALLBACK_URL = 'https://i.postimg.cc/52xLJ6y8/ansar-logo.jpg';
 // =======================================
 
 const $ = id => document.getElementById(id);
 const els = {
-  teacher: $('teacher'), subject: $('subject'), mark: $('markBtn'), alert: $('alert'),
+  teacher: $('teacher'), period: $('period'), subject: $('subject'), mark: $('markBtn'), alert: $('alert'),
   refresh: $('refreshBtn'), table: $('historyTable'), cards: $('historyCards'),
   lat: $('lLat'), lng: $('lLng'), acc: $('lAcc'), place: $('lPlace')
 };
-let teachers = [], busy = false, resetTimer = null;
+let teachers = [], periods = [], busy = false, resetTimer = null, periodReq = 0;
 
 const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -191,7 +197,7 @@ function setStat(prefix, type, text) { $(prefix + 'Box').className = 'stat' + (t
 function setMark(state, label) {
   clearTimeout(resetTimer);
   els.mark.className = 'mark-button' + (state === 'success' || state === 'error' ? ' ' + state : '');
-  els.mark.disabled = state === 'loading' || !els.teacher.value;
+  els.mark.disabled = state === 'loading' || !els.teacher.value || !els.period.value;
   els.mark.innerHTML = (state === 'loading' ? '<span class="spin"></span>' : '') + esc(label);
   if (state === 'success' || state === 'error') resetTimer = setTimeout(() => setMark('idle', 'MARK ATTENDANCE'), 3000);
 }
@@ -220,31 +226,72 @@ async function loadTeachers() {
     els.teacher.disabled = false;
   } catch (e) { els.teacher.innerHTML = '<option value="">Could not load teachers</option>'; showAlert('err', e.message); }
 }
-els.teacher.addEventListener('change', () => {
-  const t = teachers.find(x => x.name === els.teacher.value);
-  els.subject.textContent = t ? (t.subject || '—') : 'Select a teacher to see the subject.';
-  els.mark.disabled = !t || busy;
+function setSubject(main, sub) {
+  els.subject.innerHTML = '<span>' + esc(main) + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>';
+}
+const timeRange = p => [p.startTime, p.endTime].filter(Boolean).join(' – ');
+const canMark = () => !!(els.teacher.value && els.period.value) && !busy;
+
+els.teacher.addEventListener('change', async () => {
+  const name = els.teacher.value, req = ++periodReq;
+  periods = [];
+  setStat('att', '', 'Not marked');
+  els.period.disabled = true;
+  els.mark.disabled = true;
+  if (!name) {
+    els.period.innerHTML = '<option value="">Select a teacher first</option>';
+    setSubject('Select your period to see the subject.');
+    return;
+  }
+  els.period.innerHTML = '<option value="">Loading periods…</option>';
+  setSubject('Loading periods…');
+  try {
+    const r = await api('getPeriods', { teacherName: name });
+    if (req !== periodReq) return; // a newer selection superseded this one
+    periods = Array.isArray(r.data) ? r.data : [];
+    if (!periods.length) {
+      els.period.innerHTML = '<option value="">No periods today</option>';
+      setSubject('No period scheduled for ' + (r.day || 'today') + '.', 'Ask the admin to add it to the Timetable sheet.');
+      return;
+    }
+    els.period.innerHTML = '<option value="">Select period (' + esc(r.day || 'today') + ')</option>' + periods.map(p =>
+      '<option value="' + esc(p.periodId) + '">' + esc('Period ' + p.periodId + (timeRange(p) ? ' · ' + timeRange(p) : '') + ' · ' + p.subject) + '</option>').join('');
+    els.period.disabled = false;
+    setSubject('Select your period to see the subject.');
+  } catch (e) {
+    if (req !== periodReq) return;
+    els.period.innerHTML = '<option value="">Could not load periods</option>';
+    setSubject('Could not load periods.');
+    showAlert('err', e.message);
+  }
+});
+els.period.addEventListener('change', () => {
+  const p = periods.find(x => x.periodId === els.period.value);
+  if (p) setSubject(p.subject || '—', timeRange(p));
+  else setSubject('Select your period to see the subject.');
+  els.mark.disabled = !canMark();
   setStat('att', '', 'Not marked');
 });
 
 const hasCoords = x => x.latitude !== '' && x.longitude !== '' && x.latitude != null && x.longitude != null && !isNaN(Number(x.latitude)) && !isNaN(Number(x.longitude));
 const coordText = x => hasCoords(x) ? Number(x.latitude).toFixed(6) + ', ' + Number(x.longitude).toFixed(6) : '—';
 const mapUrl = x => 'https://www.google.com/maps?q=' + encodeURIComponent(Number(x.latitude) + ',' + Number(x.longitude));
+const periodText = x => x.periodId ? esc(x.periodId) + (x.startTime || x.endTime ? '<br><small>' + esc([x.startTime, x.endTime].filter(Boolean).join(' – ')) + '</small>' : '') : '—';
 const accText = x => (x.accuracy === '' || x.accuracy == null || isNaN(Number(x.accuracy))) ? '—' : Math.round(Number(x.accuracy)) + ' m';
 
 function renderHistory(rows) {
   if (!rows.length) {
-    els.table.innerHTML = '<tr><td colspan="8" class="empty">No attendance recorded yet.</td></tr>';
+    els.table.innerHTML = '<tr><td colspan="9" class="empty">No attendance recorded yet.</td></tr>';
     els.cards.innerHTML = '<div class="empty">No attendance recorded yet.</div>';
     return;
   }
   els.table.innerHTML = rows.map(x =>
-    '<tr><td>' + esc(x.date) + '</td><td>' + esc(x.time) + '</td><td>' + esc(x.teacherName) + '</td><td>' + esc(x.subject) +
+    '<tr><td>' + esc(x.date) + '</td><td>' + esc(x.time) + '</td><td>' + esc(x.teacherName) + '</td><td>' + periodText(x) + '</td><td>' + esc(x.subject) +
     '</td><td>' + esc(x.locationName) + (hasCoords(x) ? ' <a class="map-link" href="' + mapUrl(x) + '" target="_blank" rel="noopener noreferrer">Map</a>' : '') +
     '</td><td class="coordinates">' + esc(coordText(x)) + '</td><td>' + esc(accText(x)) + '</td><td>' + esc(x.locationStatus) + '</td></tr>').join('');
   els.cards.innerHTML = rows.map(x =>
     '<article class="rec"><div class="rec-head"><strong>' + esc(x.teacherName) + '</strong><span>' + esc(x.subject) + '</span></div>' +
-    '<p>📅 ' + esc(x.date) + '</p><p>🕐 ' + esc(x.time) + '</p><p>📍 ' + esc(x.locationName) + '</p>' +
+    (x.periodId ? '<p>⏱ Period ' + periodText(x).replace('<br><small>', ' (').replace('</small>', ')') + '</p>' : '') + '<p>📅 ' + esc(x.date) + '</p><p>🕐 ' + esc(x.time) + '</p><p>📍 ' + esc(x.locationName) + '</p>' +
     (hasCoords(x) ? '<p class="coordinates">🧭 ' + esc(coordText(x)) + '</p>' : '') +
     '<p>🎯 Accuracy: ' + esc(accText(x)) + '</p><p>' + esc(x.locationStatus) + '</p>' +
     (hasCoords(x) ? '<a class="btn ghost map-link" href="' + mapUrl(x) + '" target="_blank" rel="noopener noreferrer">View Map</a>' : '') + '</article>').join('');
@@ -252,13 +299,13 @@ function renderHistory(rows) {
 async function loadHistory() {
   els.refresh.disabled = true;
   const loading = '<span class="spin dark"></span> Loading history…';
-  els.table.innerHTML = '<tr><td colspan="8" class="empty">' + loading + '</td></tr>';
+  els.table.innerHTML = '<tr><td colspan="9" class="empty">' + loading + '</td></tr>';
   els.cards.innerHTML = '<div class="empty">' + loading + '</div>';
   try {
     const r = await api('getHistory');
     renderHistory(Array.isArray(r.data) ? r.data : []);
   } catch (e) {
-    els.table.innerHTML = '<tr><td colspan="8" class="empty">' + esc(e.message) + '</td></tr>';
+    els.table.innerHTML = '<tr><td colspan="9" class="empty">' + esc(e.message) + '</td></tr>';
     els.cards.innerHTML = '<div class="empty">' + esc(e.message) + '</div>';
   } finally { els.refresh.disabled = false; }
 }
@@ -282,8 +329,10 @@ els.mark.addEventListener('click', async () => {
   const name = els.teacher.value;
   const t = teachers.find(x => x.name === name);
   if (!t) { showAlert('err', 'Select your name first.'); return; }
+  const p = periods.find(x => x.periodId === els.period.value);
+  if (!p) { showAlert('err', 'Select your period first.'); return; }
   if (busy) return;
-  busy = true; els.teacher.disabled = true; els.refresh.disabled = true;
+  busy = true; els.teacher.disabled = true; els.period.disabled = true; els.refresh.disabled = true;
   els.alert.className = 'alert';
   els.lat.textContent = els.lng.textContent = els.acc.textContent = '—';
   els.place.textContent = 'Shown after you mark attendance';
@@ -304,8 +353,8 @@ els.mark.addEventListener('click', async () => {
   await new Promise(r => setTimeout(r, 700)); // let the teacher see the coordinates
 
   try {
-    const r = await api('recordAttendance', { teacherName: name, subject: t.subject, latitude: lat, longitude: lng, accuracy: acc, locationStatus: 'Location captured' });
-    setStat('att', 'ok', 'Marked today');
+    const r = await api('recordAttendance', { teacherName: name, subject: p.subject, periodId: p.periodId, latitude: lat, longitude: lng, accuracy: acc, locationStatus: 'Location captured' });
+    setStat('att', 'ok', 'Marked · Period ' + p.periodId);
     if (r.data && r.data.locationName) els.place.textContent = r.data.locationName;
     showAlert('ok', '✅ ' + (r.message || 'Attendance recorded.'));
     finish('success', '✅ Recorded');
@@ -317,22 +366,27 @@ els.mark.addEventListener('click', async () => {
   }
 });
 function finish(state, label) {
-  busy = false; els.teacher.disabled = false; els.refresh.disabled = false;
+  busy = false; els.teacher.disabled = false; els.period.disabled = !periods.length; els.refresh.disabled = false;
   setMark(state, label);
 }
 els.refresh.addEventListener('click', loadHistory);
 
 (function () {
-  if (!LOGO_URL) return;
-  const box = $('logo'), fallback = box.innerHTML, img = new Image();
-  img.alt = 'Ansar logo'; img.referrerPolicy = 'no-referrer'; img.decoding = 'async';
-  img.onload = () => {
-    box.innerHTML = ''; box.appendChild(img);
-    const icon = document.querySelector('link[rel=icon]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }));
-    icon.href = LOGO_URL;
-  };
-  img.onerror = () => { box.innerHTML = fallback; };
-  img.src = LOGO_URL;
+  const urls = [LOGO_URL, LOGO_FALLBACK_URL].filter(Boolean);
+  if (!urls.length) return;
+  const box = $('logo'), fallback = box.innerHTML;
+  (function tryLoad(i) {
+    if (i >= urls.length) { box.innerHTML = fallback; return; } // keep built-in mark
+    const img = new Image();
+    img.alt = 'Ansar logo'; img.referrerPolicy = 'no-referrer'; img.decoding = 'async';
+    img.onload = () => {
+      box.innerHTML = ''; box.appendChild(img);
+      const icon = document.querySelector('link[rel=icon]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }));
+      icon.href = urls[i];
+    };
+    img.onerror = () => tryLoad(i + 1);
+    img.src = urls[i];
+  })(0);
 })();
 
 setMark('idle', 'MARK ATTENDANCE');
