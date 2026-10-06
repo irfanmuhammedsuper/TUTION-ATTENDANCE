@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hifdh Teacher Attendance</title>
+<style>
+:root{--g9:#0f3d2a;--g7:#176b47;--g5:#1f9d68;--g1:#e8f5ee;--line:#d9e6df;--ink:#17261f;--mute:#5d7066;--bad:#b3261e;--badbg:#fdecea;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+h1{margin:0;font-size:clamp(1.1rem,3.6vw,1.6rem);line-height:1.2;color:var(--g9)}
+.brand{display:flex;align-items:center;gap:clamp(10px,2.5vw,16px);min-width:0;flex:1 1 280px}
+#logo{height:clamp(48px,11vw,84px);flex:none;display:flex;align-items:center}
+#logo img{height:100%;width:auto;max-width:clamp(96px,32vw,220px);object-fit:contain;border-radius:10px;display:block}
+#logo svg{height:100%;width:auto;aspect-ratio:1;border-radius:12px}
+.clock{text-align:right;color:var(--g7)}
+@media(max-width:560px){header{flex-direction:column;align-items:flex-start;gap:10px}.clock{text-align:left}.wrap{padding:14px 12px 40px}.card{padding:16px;border-radius:16px}}
+.clock b{display:block;font-size:1.4rem;font-variant-numeric:tabular-nums}
+.clock span{font-size:.9rem;color:var(--mute)}
+.grid{display:grid;gap:16px}
+@media(min-width:860px){.grid{grid-template-columns:420px 1fr;align-items:start}}
+.card{border:1px solid var(--line);border-radius:18px;padding:20px;background:#fff}
+.card h2{margin:0 0 14px;font-size:1.1rem;color:var(--g9)}
+label{display:block;font-weight:600;margin:0 0 6px}
+select,input[type=password]{width:100%;padding:13px 12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:#fff}
+select:focus,input:focus,button:focus-visible{outline:3px solid #9fd8bb;outline-offset:1px}
+.field{margin-bottom:14px}
+.subject{padding:12px;border-radius:12px;background:var(--g1);color:var(--g9);min-height:48px}
+.btn{width:100%;border:0;border-radius:16px;padding:20px;font:700 1.15rem inherit;font-family:inherit;color:#fff;background:var(--g7);cursor:pointer;transition:background .15s}
+.btn:hover:not(:disabled){background:var(--g9)}
+.btn:disabled{background:#9db8aa;cursor:not-allowed}
+.btn.small{width:auto;padding:10px 16px;font-size:.95rem;border-radius:12px}
+.btn.ghost{background:#fff;color:var(--g7);border:1.5px solid var(--g7)}
+.btn.ghost:hover:not(:disabled){background:var(--g1);color:var(--g9)}
+.spin{display:inline-block;width:1em;height:1em;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite;vertical-align:-2px;margin-right:6px}
+.spin.dark{border-color:var(--line);border-top-color:var(--g7)}
+@keyframes s{to{transform:rotate(360deg)}}
+.status{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.92rem}
+.stat small{display:block;color:var(--mute)}
+.stat.ok{background:var(--g1);border-color:#b7dcc8}
+.stat.err{background:var(--badbg);border-color:#f0b9b4;color:var(--bad)}
+.alert{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:600;display:none}
+.alert.show{display:block}
+.alert.ok{background:var(--g1);color:var(--g9)}
+.alert.err{background:var(--badbg);color:var(--bad)}
+.note{margin:14px 0 0;font-size:.85rem;color:var(--mute)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.bar h2{margin:0}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+td a{color:var(--g7);font-weight:600;margin-left:6px}
+table{width:100%;border-collapse:collapse;font-size:.88rem;white-space:nowrap}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--g1);color:var(--g9);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+.empty{padding:24px;text-align:center;color:var(--mute)}
+.scroll{max-height:460px;overflow:auto}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div id="logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" rx="14" fill="#176b47"/>
+          <path d="M12 22c8-3 14-2 20 3 6-5 12-6 20-3v24c-8-3-14-2-20 3-6-5-12-6-20-3z" fill="#fff"/>
+          <path d="M32 25v24" stroke="#176b47" stroke-width="2.5"/>
+          <path d="M44 9a8 8 0 1 0 5 11 6.5 6.5 0 1 1-5-11z" fill="#9fd8bb"/>
+        </svg>
+      </div>
+      <h1>Hifdh Teacher Attendance</h1>
+    </div>
+    <div class="clock"><b id="clockTime">--:--:--</b><span id="clockDate"></span></div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Mark attendance</h2>
+      <div class="field">
+        <label for="teacher">Teacher</label>
+        <select id="teacher" disabled><option>Loading teachers…</option></select>
+      </div>
+      <div class="field">
+        <label>Subject</label>
+        <div class="subject" id="subject">Select a teacher to see the subject.</div>
+      </div>
+      <button class="btn" id="markBtn" disabled>MARK ATTENDANCE</button>
+
+      <div class="status">
+        <div class="stat" id="attStat"><small>Attendance</small><span id="attText">Not marked</span></div>
+        <div class="stat" id="locStat"><small>Location</small><span id="locText">Not requested</span></div>
+      </div>
+      <div class="stat" id="coords" style="margin-top:10px;display:none"></div>
+      <div class="alert" id="alert" role="status" aria-live="polite"></div>
+      <p class="note">Attendance is open 07:45 AM – 01:00 PM IST. Your location is requested only when you press the button, and is used only to find the place name where attendance was marked. The place name and coordinates are saved with your attendance record. Your browser will ask for permission; this requires a secure (HTTPS) page.</p>
+    </section>
+
+    <section class="card">
+      <div class="bar">
+        <h2>Recent attendance</h2>
+        <button class="btn small ghost" id="refreshBtn">Refresh</button>
+      </div>
+      <div class="tablewrap scroll">
+        <table>
+          <thead><tr><th>Date</th><th>Time</th><th>Teacher</th><th>Subject</th><th>Location</th><th>Coordinates</th><th>Accuracy</th><th>Location status</th></tr></thead>
+          <tbody id="history"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+// ============ CONFIGURATION ============
+// Paste your deployed Apps Script Web App URL (ends with /exec)
+const API_URL = 'https://script.google.com/macros/s/AKfycbwylyIgCbCo9F4l3hSpTql__VESl-Q8qYrsCkUqaETzbmEMBX6_5JSJiMi3nT2ruestcg/exec';
+// Your logo: a file next to index.html (e.g. 'logo.png') or a full image URL.
+// Leave empty to keep the built-in default mark.
+const LOGO_URL = 'https://i.postimg.cc/52xLJ6y8/ansar-logo.jpg';
+// =======================================
+
+const $ = id => document.getElementById(id);
+const els = {
+  teacher: $('teacher'), subject: $('subject'), mark: $('markBtn'), alert: $('alert'),
+  attStat: $('attStat'), attText: $('attText'), locStat: $('locStat'), locText: $('locText'),
+  coords: $('coords'), history: $('history'), refresh: $('refreshBtn')
+};
+let teachers = [];
+let busy = false;
+
+function esc(v) {
+  return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ---------- Clock (display only; the server enforces the real rules) ----------
+function tick() {
+  const n = new Date();
+  $('clockTime').textContent = n.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true });
+  $('clockDate').textContent = n.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+setInterval(tick, 1000); tick();
+
+// ---------- UI helpers ----------
+function showAlert(type, msg) {
+  els.alert.className = 'alert show ' + type;
+  els.alert.textContent = msg;
+}
+function setStat(stat, textEl, type, text) {
+  stat.className = 'stat' + (type ? ' ' + type : '');
+  textEl.textContent = text;
+}
+function setMark(loading, label) {
+  els.mark.disabled = loading || !els.teacher.value;
+  els.mark.innerHTML = loading ? '<span class="spin"></span>' + esc(label) : esc(label);
+}
+
+// ---------- API ----------
+async function api(action, payload) {
+  if (!API_URL || API_URL.indexOf('PASTE_YOUR') === 0) {
+    throw new Error('API URL is not configured. Edit API_URL in index.html.');
+  }
+  let res;
+  try {
+    // text/plain avoids a CORS preflight, which Apps Script cannot answer
+    res = await fetch(API_URL, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action, payload })
+    });
+  } catch (e) {
+    throw new Error('Network error. Check your internet connection and try again.');
+  }
+  if (!res.ok) throw new Error('Server error (HTTP ' + res.status + ').');
+  let data;
+  try { data = await res.json(); }
+  catch (e) { throw new Error('Invalid response from the server.'); }
+  if (!data || typeof data.success !== 'boolean') throw new Error('Invalid response from the server.');
+  if (!data.success) throw new Error(data.message || 'Request failed.');
+  return data;
+}
+
+// ---------- Teachers ----------
+async function loadTeachers() {
+  try {
+    const r = await api('getTeachers');
+    teachers = Array.isArray(r.data) ? r.data : [];
+    if (!teachers.length) {
+      els.teacher.innerHTML = '<option value="">No teachers found</option>';
+      showAlert('err', 'No teachers are listed in the Teachers sheet.');
+      return;
+    }
+    els.teacher.innerHTML = '<option value="">Select your name</option>' +
+      teachers.map(t => '<option value="' + esc(t.name) + '">' + esc(t.name) + '</option>').join('');
+    els.teacher.disabled = false;
+  } catch (e) {
+    els.teacher.innerHTML = '<option value="">Could not load teachers</option>';
+    showAlert('err', e.message);
+  }
+}
+els.teacher.addEventListener('change', () => {
+  const t = teachers.find(x => x.name === els.teacher.value);
+  els.subject.textContent = t ? (t.subject || '—') : 'Select a teacher to see the subject.';
+  els.mark.disabled = !t || busy;
+  setStat(els.attStat, els.attText, '', 'Not marked');
+});
+
+// ---------- History ----------
+function hasCoords(x) {
+  return x.latitude !== '' && x.longitude !== '' && x.latitude != null && x.longitude != null &&
+    !isNaN(Number(x.latitude)) && !isNaN(Number(x.longitude));
+}
+function coordText(x) {
+  return hasCoords(x) ? esc(Number(x.latitude).toFixed(6)) + ', ' + esc(Number(x.longitude).toFixed(6)) : '';
+}
+function placeCell(x) {
+  const name = esc(x.locationName);
+  if (!hasCoords(x)) return name;
+  const url = 'https://www.google.com/maps?q=' + encodeURIComponent(Number(x.latitude) + ',' + Number(x.longitude));
+  return name + ' <a href="' + url + '" target="_blank" rel="noopener noreferrer">Map</a>';
+}
+async function loadHistory() {
+  els.refresh.disabled = true;
+  els.history.innerHTML = '<tr><td colspan="8" class="empty"><span class="spin dark"></span>Loading…</td></tr>';
+  try {
+    const r = await api('getHistory');
+    const rows = Array.isArray(r.data) ? r.data : [];
+    if (!rows.length) {
+      els.history.innerHTML = '<tr><td colspan="8" class="empty">No attendance recorded yet.</td></tr>';
+    } else {
+      els.history.innerHTML = rows.map(x =>
+        '<tr><td>' + esc(x.date) + '</td><td>' + esc(x.time) + '</td><td>' + esc(x.teacherName) +
+        '</td><td>' + esc(x.subject) + '</td><td>' + placeCell(x) + '</td><td>' + coordText(x) + '</td><td>' +
+        (x.accuracy === '' || x.accuracy === null || x.accuracy === undefined ? '' : esc(Math.round(Number(x.accuracy))) + ' m') +
+        '</td><td>' + esc(x.locationStatus) + '</td></tr>').join('');
+    }
+  } catch (e) {
+    els.history.innerHTML = '<tr><td colspan="8" class="empty">' + esc(e.message) + '</td></tr>';
+  } finally {
+    els.refresh.disabled = false;
+  }
+}
+
+// ---------- Location ----------
+function getLocation() {
+  return new Promise((resolve, reject) => {
+    if (!('geolocation' in navigator)) {
+      return reject(new Error('This browser does not support location.'));
+    }
+    if (!window.isSecureContext) {
+      return reject(new Error('Location needs a secure (HTTPS) page.'));
+    }
+    navigator.geolocation.getCurrentPosition(
+      p => resolve(p.coords),
+      err => {
+        const m = {
+          1: 'Location permission was denied. Allow location for this site in your browser settings, then try again.',
+          2: 'Your location is unavailable. Turn on GPS or location services and try again.',
+          3: 'Getting your location took too long. Move to an open area and try again.'
+        };
+        reject(new Error(m[err.code] || 'Could not get your location.'));
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+  });
+}
+
+// ---------- Mark attendance ----------
+els.mark.addEventListener('click', async () => {
+  const name = els.teacher.value;
+  const t = teachers.find(x => x.name === name);
+  if (!t) { showAlert('err', 'Select your name first.'); return; }
+  if (busy) return;
+  busy = true;
+  els.teacher.disabled = true;
+  els.alert.className = 'alert';
+  els.coords.style.display = 'none';
+  setStat(els.locStat, els.locText, '', 'Requesting…');
+  setMark(true, '📍 Getting Location...');
+
+  let c;
+  try {
+    c = await getLocation();
+  } catch (e) {
+    setStat(els.locStat, els.locText, 'err', 'Not captured');
+    showAlert('err', e.message + ' Attendance was not recorded.');
+    finish();
+    return;
+  }
+
+  const lat = c.latitude, lng = c.longitude, acc = c.accuracy;
+  setStat(els.locStat, els.locText, 'ok', 'Captured');
+  els.coords.className = 'stat ok';
+  els.coords.style.display = 'block';
+  els.coords.innerHTML = '<small>Location captured</small>' + lat.toFixed(6) + ', ' + lng.toFixed(6) + ' (±' + Math.round(acc) + ' m)<br>Finding place name…';
+  setMark(true, 'Recording attendance…');
+  await new Promise(r => setTimeout(r, 700)); // let the teacher see the coordinates
+
+  try {
+    const r = await api('recordAttendance', {
+      teacherName: name, subject: t.subject,
+      latitude: lat, longitude: lng, accuracy: acc,
+      locationStatus: 'Location captured'
+    });
+    setStat(els.attStat, els.attText, 'ok', 'Marked today');
+    const place = r.data && r.data.locationName;
+    if (place) {
+      els.coords.innerHTML = '<small>Recorded location</small>' + esc(place) +
+        '<br>' + lat.toFixed(6) + ', ' + lng.toFixed(6) + ' (±' + Math.round(acc) + ' m)';
+    }
+    showAlert('ok', '✅ ' + (r.message || 'Attendance recorded.'));
+    loadHistory();
+  } catch (e) {
+    setStat(els.attStat, els.attText, 'err', 'Not recorded');
+    showAlert('err', '❌ ' + e.message);
+  }
+  finish();
+});
+function finish() {
+  busy = false;
+  els.teacher.disabled = false;
+  setMark(false, 'MARK ATTENDANCE');
+}
+
+els.refresh.addEventListener('click', loadHistory);
+
+// ---------- Logo ----------
+(function () {
+  if (!LOGO_URL) return;
+  const box = $('logo');
+  const fallback = box.innerHTML;
+  const img = new Image();
+  img.alt = 'Ansar logo';
+  img.referrerPolicy = 'no-referrer';
+  img.decoding = 'async';
+  img.onload = () => {
+    box.innerHTML = '';
+    box.appendChild(img);
+    const icon = document.querySelector('link[rel=icon]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'icon' }));
+    icon.href = LOGO_URL;
+  };
+  img.onerror = () => { box.innerHTML = fallback; }; // keep default if file missing
+  img.src = LOGO_URL;
+})();
+
+// ---------- Init (no location request here) ----------
+setMark(false, 'MARK ATTENDANCE');
+loadTeachers();
+loadHistory();
+</script>
+</body>
+</html>
